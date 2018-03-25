@@ -97,14 +97,15 @@ class OnExit {
 bool MyStorm::FPGAConfigure(Stream &str)
 {
   static byte buf[64];
-  int nbytes, lastread;
+  int nbytes
+  unsigned long lastread;
 
   // read and skip anything before the sync marker
   nbytes = 0;
   do {
     lastread = millis();
     while (!str.available()) {
-      if (lastread - millis() > 1000)
+      if (millis() - lastread > 1000)
         return false;
     }
     buf[nbytes] = str.read();
@@ -126,7 +127,7 @@ bool MyStorm::FPGAConfigure(Stream &str)
   OnExit spiDetacher = OnExit();
   SPI.write(syncBytes, sizeof syncBytes);
   for (int nleft = bitstreamBodyLength; nleft > 0; nleft -= nbytes) {
-    int lastread = millis();
+    unsigned long lastread = millis();
     do {
       nbytes = str.available();
       if (millis() - lastread > 1000)
