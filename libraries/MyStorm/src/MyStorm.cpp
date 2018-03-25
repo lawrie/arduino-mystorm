@@ -97,7 +97,7 @@ class OnExit {
 bool MyStorm::FPGAConfigure(Stream &str)
 {
   static byte buf[64];
-  int nbytes
+  int nbytes;
   unsigned long lastread;
 
   // read and skip anything before the sync marker
